@@ -3,9 +3,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TrackModule } from './tracks/track.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TrackModule, MongooseModule.forRoot('mongodb+srv://admin:admin@maincluster.chkzn.mongodb.net/musicDB?retryWrites=true&w=majority')],
+  imports: [
+    TrackModule,
+    ConfigModule.forRoot({envFilePath: '.env.local'}),
+    MongooseModule.forRoot(process.env.MONGODB_ACCSESS_KEY)
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
